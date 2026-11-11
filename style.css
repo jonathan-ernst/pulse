@@ -1,0 +1,104 @@
+:root {
+  --bg: #07080d;
+  --panel: rgba(14, 16, 24, 0.72);
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #e9ecf4;
+  --muted: #8b91a5;
+  --tram: #ffb347;
+  --bus: #4fd1ff;
+  --accent: #ff6b8b;
+  --radius: 14px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+  font: 14px/1.4 Inter, system-ui, sans-serif; overflow: hidden; -webkit-font-smoothing: antialiased; }
+.mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+#map { position: absolute; inset: 0; }
+.vignette { position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%); }
+
+.panel { position: absolute; z-index: 2; background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--radius); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+.hidden { display: none !important; }
+.label { color: var(--muted); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.small { font-size: 12px; color: var(--muted); }
+
+.brand { top: 16px; left: 16px; padding: 12px 16px; }
+.logo { font-weight: 700; letter-spacing: .32em; font-size: 15px; display: flex; align-items: center; gap: 10px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent);
+  animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { transform: scale(1); opacity: 1 } 50% { transform: scale(1.6); opacity: .5 } }
+.sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+.clock { top: 16px; right: 16px; padding: 14px 18px; text-align: right; min-width: 210px; }
+.day { color: var(--muted); font-size: 12px; }
+.time { font-size: 44px; font-weight: 600; line-height: 1.05; letter-spacing: -.02em; }
+.controls { display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px; }
+.btn { background: rgba(255,255,255,.06); border: 1px solid var(--line); color: var(--text); border-radius: 9px;
+  height: 30px; padding: 0 10px; cursor: pointer; font: inherit; font-size: 12px; }
+.btn:hover { background: rgba(255,255,255,.12); }
+.btn.icon { width: 30px; padding: 0; }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+.seg button { background: transparent; border: 0; color: var(--muted); font: 600 12px "JetBrains Mono", monospace;
+  padding: 0 10px; height: 28px; cursor: pointer; }
+.seg button.on { background: rgba(255,255,255,.12); color: var(--text); }
+
+.stats { top: 96px; left: 16px; padding: 16px; width: 250px; }
+.big { font-size: 40px; font-weight: 600; line-height: 1.1; }
+.split { display: grid; gap: 6px; margin: 12px 0; }
+.mode { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+.mode input { display: none; }
+.mode b { margin-left: auto; font-weight: 600; }
+.mode:has(input:not(:checked)) { opacity: .35; }
+.sw { width: 18px; height: 4px; border-radius: 2px; display: inline-block; }
+.sw.tram { background: linear-gradient(90deg, #ff5e62, #ffb347, #ffe66d); }
+.sw.bus { background: linear-gradient(90deg, #4fd1ff, #7f7cff); }
+.facts { font-size: 11px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; display: grid; gap: 3px; }
+.facts span { color: var(--text); }
+
+.iso { top: 96px; right: 16px; width: 280px; padding: 16px; }
+.iso-head { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+.iso-title { font-weight: 600; font-size: 16px; margin-top: 2px; }
+.iso-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+.iso-kpis .val { font-size: 26px; font-weight: 600; }
+.legend { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin-bottom: 10px; }
+.legend div { font: 10px "JetBrains Mono", monospace; color: var(--muted); }
+.legend i { display: block; height: 6px; border-radius: 3px; margin-bottom: 4px; }
+
+.hintchip { left: 50%; transform: translateX(-50%); bottom: 112px; padding: 8px 14px; font-size: 12px;
+  color: var(--text); border-radius: 999px; pointer-events: none; transition: opacity .6s; }
+
+.timeline { left: 16px; right: 16px; bottom: 16px; height: 82px; padding: 10px 14px 18px; cursor: ew-resize; }
+#chart { width: 100%; height: 100%; display: block; overflow: visible; }
+.ticks { position: absolute; left: 14px; right: 14px; bottom: 4px; height: 12px; font-size: 10px; color: var(--muted); }
+.ticks span { position: absolute; transform: translateX(-50%); }
+
+.tooltip { position: absolute; z-index: 6; pointer-events: none; background: rgba(10,12,18,.92); border: 1px solid var(--line);
+  padding: 7px 10px; border-radius: 9px; font-size: 12px; display: none; z-index: 5; white-space: nowrap; }
+.tooltip b { font-weight: 700; margin-right: 6px; }
+
+#loader { position: fixed; inset: 0; background: var(--bg); display: grid; place-items: center; z-index: 10; transition: opacity .8s; }
+#loader.done { opacity: 0; pointer-events: none; }
+.loader-inner { width: 260px; text-align: center; display: grid; gap: 14px; }
+.big-logo { justify-content: center; font-size: 22px; }
+.bar { height: 2px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+
+.maplibregl-ctrl-attrib { background: rgba(0,0,0,.4) !important; font-size: 10px; }
+.maplibregl-ctrl-attrib a { color: var(--muted) !important; }
+.maplibregl-ctrl-bottom-right { bottom: 104px; }
+
+@media (max-width: 720px) {
+  .brand { top: 12px; left: 12px; padding: 9px 12px; }
+  .sub { display: none; }
+  .clock { top: 12px; right: 12px; min-width: 0; padding: 10px 12px; }
+  .time { font-size: 30px; }
+  .stats { top: auto; bottom: 106px; left: 12px; width: auto; padding: 10px 12px; }
+  .big { font-size: 26px; }
+  .facts, .split { display: none; }
+  .iso { top: auto; bottom: 106px; right: 12px; left: 12px; width: auto; }
+  .hintchip { display: none; }
+  .timeline { left: 12px; right: 12px; bottom: 12px; height: 76px; }
+  .ticks span:nth-child(even) { display: none; }
+}

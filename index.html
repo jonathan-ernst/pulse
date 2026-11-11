@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pulse · Rhein-Neckar</title>
+<meta name="description" content="Ein Tag ÖPNV in Mannheim, Ludwigshafen und Heidelberg – 14.000 echte Fahrten als Echtzeit-Simulation, mit Erreichbarkeitsanalyse im Browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
+</head>
+<body>
+<div id="map"></div>
+<div class="vignette"></div>
+
+<header class="brand panel">
+  <div class="logo"><span class="dot"></span>PULSE</div>
+  <div class="sub">Rhein-Neckar in Bewegung</div>
+</header>
+
+<section class="clock panel">
+  <div class="day" id="day">Mittwoch</div>
+  <div class="time mono" id="time">07:00</div>
+  <div class="controls">
+    <button id="play" class="btn icon" aria-label="Pause">❚❚</button>
+    <div class="seg" id="speed">
+      <button data-s="30">30×</button><button data-s="120" class="on">120×</button><button data-s="600">600×</button>
+    </div>
+  </div>
+</section>
+
+<section class="stats panel">
+  <div class="kpi">
+    <div class="label">Fahrzeuge unterwegs</div>
+    <div class="big mono" id="active">0</div>
+  </div>
+  <div class="split">
+    <label class="mode"><input type="checkbox" data-mode="0" checked><i class="sw tram"></i>Tram <b class="mono" id="m0">0</b></label>
+    <label class="mode"><input type="checkbox" data-mode="2" checked><i class="sw bus"></i>Bus <b class="mono" id="m2">0</b></label>
+  </div>
+  <div class="facts mono" id="facts"></div>
+</section>
+
+<section class="iso panel hidden" id="iso">
+  <div class="iso-head">
+    <div>
+      <div class="label">Erreichbarkeit</div>
+      <div class="iso-title" id="isoTitle">–</div>
+    </div>
+    <button class="btn icon" id="isoClose" aria-label="Schließen">✕</button>
+  </div>
+  <div class="iso-kpis">
+    <div><div class="mono val" id="isoStops">0</div><div class="label">Haltestellen ≤ 30 min</div></div>
+    <div><div class="mono val" id="isoArea">0</div><div class="label">km² ≤ 30 min</div></div>
+  </div>
+  <div class="legend" id="legend"></div>
+  <div class="hint small">Kürzeste Reisezeit inkl. Fußwege, berechnet live im Browser (Connection Scan Algorithm).</div>
+</section>
+
+<div class="hintchip panel" id="hint">Klick auf die Karte → Wie weit komme ich in 60 Minuten?</div>
+
+<footer class="timeline panel">
+  <svg id="chart" preserveAspectRatio="none"></svg>
+  <div class="ticks mono" id="ticks"></div>
+</footer>
+
+<div class="tooltip" id="tip"></div>
+
+<div id="loader">
+  <div class="loader-inner">
+    <div class="logo big-logo"><span class="dot"></span>PULSE</div>
+    <div class="bar"><i id="loadbar"></i></div>
+    <div class="mono small" id="loadmsg">Lade Fahrplan…</div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/deck.gl@9.0.38/dist.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
